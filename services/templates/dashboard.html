@@ -1,0 +1,48 @@
+{%extends 'base.html' %}
+
+{%block content%}
+<section style="background-color: gainsboro;padding-top: 5rem;padding-bottom: 5rem">
+	<div class="container card shadow col-md-9">
+		<form class="row mt-3" action="" method="POST">
+			{%csrf_token%}
+  			<div class="col-md-7">
+    			<input type="text" class="form-control" id="staticUrl" name="URL" placeholder="Paste Url">
+  			</div>
+  			<div class="col-3">
+    			<span class="badge bg-dark mt-2">Prefix Url = marketing.newbytes</span>
+  			</div>
+  			<div class="col-2">
+    			<button type="submit" class="btn btn-primary mb-3">Short Url</button>
+  			</div>
+		</form>
+	</div>
+	<div class="container card shadow col-md-9 mt-4">
+		<table class="table table-striped">
+		  <thead>
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">URL</th>
+		      <th scope="col">Shorted URL</th>
+		      <th scope="col">Last Accessed</th>
+		      <th scope="col">Access Count</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	{% for url in request.user.url_set.all %}
+		    <tr>
+		      <th scope="row">-</th>
+		      <td><input type="text" value="{{url.target_url}}" title="{{url.target_url}}" class="form-control" readonly></td>
+		      <td class="d-flex align-items-center">
+		      	<span>
+		      		<input type="text" value="{{url.alias}}" title="{{url.alias}}" class="form-control" readonly>
+		      	</span>
+		  	  </td>
+		      <td>{{url.timestamp}}</td>
+		      <td>{{url.count}}</td>
+		    </tr>
+		    {%endfor%}
+		  </tbody>
+		</table>
+	</div>
+</section>
+{%endblock content%}
